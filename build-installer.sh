@@ -52,6 +52,9 @@ rsync -a --delete \
     --exclude 'installer' \
     --exclude 'build-installer.sh' \
     --exclude 'install.sh' \
+    --exclude 'Install Leonardo.zip' \
+    --exclude 'docs' \
+    --exclude '.gitignore' \
     "$HERE"/ "$RES"/
 
 # --- app icon: macOS "card" style from img/logo.png ---
