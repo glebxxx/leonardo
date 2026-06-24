@@ -113,6 +113,14 @@ in the Electron main process and are reachable only through the chat loop (the r
 sandboxed). The system prompt instructs Leonardo to confirm destructive/irreversible actions before
 running them. Use accordingly.
 
+## Acknowledgements
+
+Built for **DaVinci Resolve by Blackmagic Design**. This project relies on Blackmagic's
+Workflow Integration SDK and the DaVinci Resolve scripting API, and is styled with Blackmagic's
+**Radnika** brand font. *DaVinci Resolve*, *Blackmagic Design* and *Radnika* are trademarks of
+Blackmagic Design Pty Ltd. Leonardo is an **unofficial, independent** project — not affiliated
+with, sponsored by, or endorsed by Blackmagic Design.
+
 ## License
 
 GPL‑3.0. Built with [Claude](https://claude.com/claude-code).
