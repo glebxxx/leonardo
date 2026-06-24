@@ -11,12 +11,12 @@ PARENT="$(dirname "$HERE")"
 APP="$PARENT/Install Leonardo.app"
 SCPT="$HERE/installer/installer.applescript"
 
-echo "Сборка установщика → $APP"
+echo "Building installer → $APP"
 
-# --- статическая проверка относительных require перед сборкой ---
-# Ловит опечатки в путях модулей (которые синтаксис-чек не видит), чтобы в
-# payload не уехал плагин, падающий при запуске с "Cannot find module".
-echo "Проверка require-путей…"
+# --- static check of relative require() paths before building ---
+# Catches typos in module paths (a syntax check misses these) so a plugin that
+# crashes at launch with "Cannot find module" never ships in the payload.
+echo "Checking require() paths…"
 problems=$(find "$HERE" -name '*.js' -not -path '*/node_modules/*' | while read -r f; do
     d=$(dirname "$f")
     reqs=$(grep -oE "require\('(\.[^']+)'\)" "$f" | sed -E "s/require\('//; s/'\)//" || true)
@@ -25,19 +25,19 @@ problems=$(find "$HERE" -name '*.js' -not -path '*/node_modules/*' | while read 
         if [ -f "$t" ] || [ -f "$t.js" ] || [ -f "$t.node" ] || [ -f "$t/index.js" ]; then
             :
         elif [ "${req##*/}" = "WorkflowIntegration.node" ]; then
-            : # подкладывается из SDK при установке
+            : # copied from the SDK at install time
         else
             echo "  ${f#$HERE/} → $req"
         fi
     done
 done || true)
 if [ -n "$problems" ]; then
-    echo "ОШИБКА: require указывает на несуществующие модули:" >&2
+    echo "ERROR: require() points to missing modules:" >&2
     echo "$problems" >&2
-    echo "Исправь пути и запусти сборку снова." >&2
+    echo "Fix the paths and run the build again." >&2
     exit 1
 fi
-echo "require-пути OK"
+echo "require() paths OK"
 
 rm -rf "$APP"
 osacompile -o "$APP" "$SCPT"
@@ -54,17 +54,17 @@ rsync -a --delete \
     --exclude 'install.sh' \
     "$HERE"/ "$RES"/
 
-# --- иконка приложения: macOS-«карточка» из img/logo.png ---
+# --- app icon: macOS "card" style from img/logo.png ---
 ICON_SRC="$HERE/img/logo.png"
 if [ -f "$ICON_SRC" ]; then
     TMP="$(mktemp -d)"
     ICON_BASE="$ICON_SRC"
-    # Свежий 1024-мастер в стиле macOS (скругление/поля/тень/рамка) через Swift+AppKit.
+    # Fresh 1024 macOS-style master (rounded corners/margins/shadow/border) via Swift+AppKit.
     if swift "$HERE/installer/make-icon.swift" "$ICON_SRC" "$TMP/card.png" >/dev/null 2>&1 && [ -f "$TMP/card.png" ]; then
         ICON_BASE="$TMP/card.png"
-        echo "Иконка-карточка сгенерирована (macOS-стиль)."
+        echo "Card icon generated (macOS style)."
     else
-        echo "Не удалось собрать карточку (нет swift?) — беру картинку во весь квадрат."
+        echo "Could not build the card (no swift?) — using the full-square image."
     fi
     ICONSET="$TMP/leonardo.iconset"
     mkdir -p "$ICONSET"
@@ -75,11 +75,11 @@ if [ -f "$ICON_SRC" ]; then
     done
     iconutil -c icns "$ICONSET" -o "$APP/Contents/Resources/applet.icns"
     rm -rf "$TMP"
-    touch "$APP"   # подтолкнуть Finder обновить иконку
-    echo "Иконка установлена."
+    touch "$APP"   # nudge Finder to refresh the icon
+    echo "Icon installed."
 else
-    echo "Внимание: $ICON_SRC не найден — иконка по умолчанию."
+    echo "Warning: $ICON_SRC not found — using the default icon."
 fi
 
-echo "Готово."
-echo "Дважды кликни «Install Leonardo» в Finder — установщик запросит пароль администратора и всё разложит по местам."
+echo "Done."
+echo "Double-click "Install Leonardo" in Finder — it will ask for an admin password and put everything in place."

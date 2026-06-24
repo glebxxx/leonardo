@@ -14,16 +14,16 @@ DEST_ROOT="$RESOLVE_SUPPORT/Workflow Integration Plugins"
 DEST="$DEST_ROOT/$PLUGIN_ID"
 NODE_SRC="$RESOLVE_SUPPORT/Developer/Workflow Integrations/Examples/SamplePlugin/WorkflowIntegration.node"
 
-echo "Leonardo — установка плагина"
-echo "  источник: $SRC"
-echo "  цель:     $DEST"
-echo "  (потребуется пароль администратора для записи в /Library)"
+echo "Leonardo — plugin installer"
+echo "  source: $SRC"
+echo "  target:   $DEST"
+echo "  (an admin password is required to write to /Library)"
 echo
 
 if [ ! -f "$NODE_SRC" ]; then
-    echo "ОШИБКА: не найден WorkflowIntegration.node по пути:"
+    echo "ERROR: WorkflowIntegration.node not found at:"
     echo "  $NODE_SRC"
-    echo "Убедись, что установлена DaVinci Resolve STUDIO (не бесплатная) с компонентом Developer/Workflow Integrations."
+    echo "Make sure DaVinci Resolve STUDIO (not the free version) is installed with the Developer/Workflow Integrations component."
     exit 1
 fi
 
@@ -40,9 +40,9 @@ sudo rsync -a --delete \
 sudo cp "$NODE_SRC" "$DEST/WorkflowIntegration.node"
 
 echo
-echo "Готово."
-echo "Дальше:"
+echo "Done."
+echo "Next:"
 echo "  1) DaVinci Resolve > Preferences > General > External scripting using = Local"
-echo "  2) Полностью перезапусти DaVinci Resolve Studio"
+echo "  2) Fully restart DaVinci Resolve Studio"
 echo "  3) Workspace > Workflow Integrations > Leonardo"
-echo "  4) В панели нажми ⚙ и вставь свой Anthropic API-ключ (или экспортируй ANTHROPIC_API_KEY)"
+echo "  4) In the panel, click ⚙ and paste your Anthropic API key (or export ANTHROPIC_API_KEY)"

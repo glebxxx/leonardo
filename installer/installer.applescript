@@ -13,12 +13,12 @@ on run
 	set nodeSrc to resolveSupport & "/Developer/Workflow Integrations/Examples/SamplePlugin/WorkflowIntegration.node"
 
 	if not fileExists(payloadPath) then
-		display dialog "Внутри установщика нет файлов плагина (Contents/Resources/leonardo). Пересобери установщик через build-installer.sh." buttons {"OK"} default button "OK" with icon stop with title "Leonardo"
+		display dialog "The installer has no plugin files (Contents/Resources/leonardo). Rebuild it with build-installer.sh." buttons {"OK"} default button "OK" with icon stop with title "Leonardo"
 		return
 	end if
 
 	if not fileExists(nodeSrc) then
-		display dialog "Не найден WorkflowIntegration.node:" & return & nodeSrc & return & return & "Похоже, не установлена DaVinci Resolve STUDIO (с компонентом Developer ▸ Workflow Integrations). Бесплатная версия не поддерживает Workflow Integration плагины." buttons {"OK"} default button "OK" with icon stop with title "Leonardo"
+		display dialog "WorkflowIntegration.node not found:" & return & nodeSrc & return & return & "It looks like DaVinci Resolve STUDIO (with the Developer ▸ Workflow Integrations component) is not installed. The free version does not support Workflow Integration plugins." buttons {"OK"} default button "OK" with icon stop with title "Leonardo"
 		return
 	end if
 
@@ -29,12 +29,12 @@ on run
 	try
 		do shell script s with administrator privileges
 	on error errMsg number errNum
-		if errNum is -128 then return -- пользователь отменил ввод пароля
-		display dialog "Не удалось установить Leonardo:" & return & errMsg buttons {"OK"} default button "OK" with icon stop with title "Leonardo"
+		if errNum is -128 then return -- user cancelled the password prompt
+		display dialog "Failed to install Leonardo:" & return & errMsg buttons {"OK"} default button "OK" with icon stop with title "Leonardo"
 		return
 	end try
 
-	display dialog "Leonardo установлен ✅" & return & return & "Осталось:" & return & "1) DaVinci Resolve → Preferences → General →" & return & "    External scripting using = Local" & return & "2) Полностью перезапусти DaVinci Resolve Studio" & return & "3) Workspace → Workflow Integrations → Leonardo" & return & "4) В панели нажми ⚙ и вставь Anthropic API-ключ" buttons {"Готово"} default button "Готово" with icon note with title "Leonardo"
+	display dialog "Leonardo installed ✅" & return & return & "Next:" & return & "1) DaVinci Resolve → Preferences → General →" & return & "    External scripting using = Local" & return & "2) Fully restart DaVinci Resolve Studio" & return & "3) Workspace → Workflow Integrations → Leonardo" & return & "4) In the panel, click ⚙ and paste your Anthropic API key" buttons {"Done"} default button "Done" with icon note with title "Leonardo"
 end run
 
 on fileExists(p)
