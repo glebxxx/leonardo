@@ -1,0 +1,9 @@
+{
+    "name": "leonardo",
+    "version": "1.0.0",
+    "description": "Leonardo — chat panel that controls DaVinci Resolve",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    }
+}

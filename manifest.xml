@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BlackmagicDesign>
+    <Plugin>
+        <Id>com.gleb.leonardo</Id>
+        <Name>Leonardo</Name>
+        <Version>1.0</Version>
+        <Description>Leonardo — AI assistant that controls DaVinci Resolve via chat</Description>
+        <FilePath>main.js</FilePath>
+    </Plugin>
+</BlackmagicDesign>

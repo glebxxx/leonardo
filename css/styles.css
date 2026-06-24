@@ -1,0 +1,192 @@
+/* Official Blackmagic brand font (Radnika), embedded locally. */
+@font-face {
+    font-family: 'Radnika';
+    src: url('../fonts/radnika-condensed-webfont.woff2') format('woff2'),
+         url('../fonts/radnika-condensed-webfont.woff') format('woff');
+    font-weight: 400 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Radnika';
+    src: url('../fonts/radnika-mediumcondensed-webfont.woff2') format('woff2'),
+         url('../fonts/radnika-mediumcondensed-webfont.woff') format('woff');
+    font-weight: 600 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    /* DaVinci Resolve interface palette */
+    --bg: #232427;            /* main dark gray */
+    --bg-2: #2a2b2e;          /* header / composer panels */
+    --bg-3: #34353a;          /* raised: assistant bubble, hover */
+    --line: #18191b;          /* near-black separators (Resolve style) */
+    --text: #cccccc;          /* light gray text */
+    --muted: #888b90;         /* secondary text / icons */
+    --accent: #4a7eb5;        /* DaVinci clip / selection blue */
+    --accent-hover: #5b90c8;
+    --user: #3a5a82;          /* user bubble — deeper blue */
+    --ok: #4e8f5b;
+    --err: #b35a5a;
+    --on-accent: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+/* No italic anywhere; no synthetic slanting. */
+* { font-style: normal; font-synthesis: none; }
+
+html, body {
+    margin: 0;
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font: 13px/1.5 'Radnika', -apple-system, "Segoe UI", Roboto, sans-serif;
+    letter-spacing: 0.2px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    -webkit-user-select: none;
+}
+
+.brand { display: flex; align-items: center; gap: 8px; }
+.brand .logo { width: 22px; height: 22px; border-radius: 4px; object-fit: cover; background: #1b1c1e; }
+.brand .title { font-weight: 700; font-size: 13.5px; letter-spacing: 0.3px; }
+
+.actions { display: flex; gap: 4px; }
+.icon-btn {
+    background: transparent; border: none; color: var(--muted);
+    font-size: 16px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer;
+}
+.icon-btn:hover { background: var(--bg-3); color: var(--text); }
+
+.settings {
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.settings.hidden { display: none; }
+.settings label { font-size: 11.5px; color: var(--muted); }
+.settings input {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 4px;
+    color: var(--text); padding: 8px 10px; font-size: 13px; outline: none;
+    font-family: inherit;
+}
+.settings input:focus { border-color: var(--accent); }
+.settings-row { display: flex; align-items: center; gap: 10px; }
+.settings .hint { font-size: 11px; color: var(--muted); line-height: 1.35; }
+.settings label { display: block; margin-bottom: 4px; }
+#apiFields, #maxFields { display: flex; flex-direction: column; gap: 6px; }
+
+.hidden { display: none !important; }
+.mode-row { display: flex; gap: 6px; }
+.mode-btn {
+    flex: 1; background: var(--bg); color: var(--muted); border: 1px solid var(--line);
+    border-radius: 4px; padding: 7px 10px; font: inherit; cursor: pointer;
+}
+.mode-btn:hover { color: var(--text); }
+.mode-btn.active { background: var(--accent); color: var(--on-accent); border-color: var(--accent); font-weight: 600; }
+
+button.primary {
+    background: var(--accent); color: var(--on-accent); border: none; font-weight: 600;
+    font-family: inherit; padding: 7px 14px; border-radius: 4px; cursor: pointer;
+}
+button.primary:hover { background: var(--accent-hover); }
+
+.transcript {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.msg {
+    max-width: 92%;
+    padding: 8px 11px;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.msg.user { align-self: flex-end; background: var(--user); border-bottom-right-radius: 2px; }
+.msg.assistant { align-self: flex-start; background: var(--bg-3); border-bottom-left-radius: 2px; }
+.msg.system { align-self: center; background: transparent; color: var(--muted); font-size: 11.5px; text-align: center; max-width: 100%; }
+.msg.error { align-self: stretch; background: var(--err); color: #ffe2e2; font-size: 12px; border-radius: 4px; }
+
+.tool {
+    align-self: flex-start;
+    max-width: 92%;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--muted);
+    border-radius: 4px;
+    padding: 6px 9px;
+    font-size: 11.5px;
+}
+.tool.pending { border-left-color: var(--accent); animation: pulse 1.1s ease-in-out infinite; }
+.tool.ok { border-left-color: var(--ok); }
+.tool.err { border-left-color: var(--err); }
+.tool-head { color: var(--text); font-weight: 600; }
+.tool-args { color: var(--muted); margin-top: 3px; font-family: ui-monospace, Menlo, monospace; font-size: 10.5px; letter-spacing: 0; word-break: break-all; }
+
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+.status { padding: 0 14px; height: 18px; color: var(--muted); font-size: 11px; }
+
+.composer {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    padding: 10px 12px;
+    border-top: 1px solid var(--line);
+    background: var(--bg-2);
+}
+.composer textarea {
+    flex: 1;
+    resize: none;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 9px 11px;
+    font: inherit;
+    line-height: 1.4;
+    letter-spacing: 0.2px;
+    outline: none;
+    max-height: 160px;
+}
+.composer textarea:focus { border-color: var(--accent); }
+.send {
+    background: var(--accent);
+    color: var(--on-accent);
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 4px;
+    font-size: 15px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.send:hover { background: var(--accent-hover); }
+.send:disabled { opacity: 0.45; cursor: default; }
+
+/* scrollbar */
+.transcript::-webkit-scrollbar { width: 9px; }
+.transcript::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 4px; }
