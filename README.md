@@ -123,4 +123,4 @@ with, sponsored by, or endorsed by Blackmagic Design.
 
 ## License
 
-GPL‑3.0. Built with [Claude](https://claude.com/claude-code).
+GPL‑3.0
